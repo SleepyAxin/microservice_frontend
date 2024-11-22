@@ -1,19 +1,27 @@
 {
-  "name": "microservice_frontend",
-  "version": "0.1.0",
+  "$schema": "https://json.schemastore.org/package",
+  "name": "my_memo_frontend",
+  "version": "1.0.0",
   "private": true,
-  "scripts": {
+  "scripts": 
+  {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
-  "dependencies": {
+  "dependencies": 
+  {
+    "@mantine/core": "^7.14.1",
+    "@mantine/form": "^7.14.1",
+    "@mantine/hooks": "^7.14.1",
+    "@mantine/notifications": "^7.14.1",
+    "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
-    "next": "15.0.3"
+    "react-dom": "19.0.0-rc-66855b96-20241106"
   },
-  "devDependencies": {
+  "devDependencies": 
+  {
     "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",

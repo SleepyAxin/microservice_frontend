@@ -23,7 +23,7 @@ import { notifications } from '@mantine/notifications'
 
 import { LoginFormValues, RegisterFormValues, ApiError } from '@/app/types/auth'
 import { AuthService } from '@/app/service/auth'
-import { storeAuthToken, storeUserInfo } from '@/app/utils/auth'
+import { storeUserInfo } from '@/app/utils/auth'
 
 export default function AuthPage() 
 {
@@ -76,14 +76,20 @@ export default function AuthPage()
     {
       const data = await AuthService.login(values)
 
-      storeUserInfo(data.user)
-      storeAuthToken(data.token)
+      storeUserInfo
+      (
+        {
+          id: data.id,
+          username: data.username,
+          password: data.password
+        }
+      )
 
       notifications.show
       (
         {
           title: '登录成功',
-          message: `欢迎回来，${data.user.username}！`,
+          message: `欢迎回来，${data.username}！`,
           color: 'green'
         }
       )

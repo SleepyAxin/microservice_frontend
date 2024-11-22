@@ -31,23 +31,27 @@ export interface RegisterFormValues
 /**
  * 用户信息接口
  * @interface UserInfo
+ * @property { number } id - 用户ID
  * @property { string } username - 用户名
+ * @property { string } password - 密码
  */
 export interface UserInfo 
 {
+    id: number
     username: string
+    password: string
 }
 
 /**
  * 认证响应接口
  * @interface AuthResponse
- * @property { string } token - 认证令牌
  * @property { UserInfo } user - 用户信息
  */
 export interface AuthResponse 
 {
-    token: string
-    user: UserInfo
+    id: number
+    username: string
+    password: string
 }
 
 /**

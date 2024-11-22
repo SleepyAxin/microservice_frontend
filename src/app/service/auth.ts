@@ -1,5 +1,5 @@
 // services/auth.ts
-import { LoginFormValues, RegisterFormValues, AuthResponse, ApiError } from '@/app/types/auth'
+import { UserInfo, LoginFormValues, RegisterFormValues, AuthResponse, ApiError } from '@/app/types/auth'
 
 /**
  * 用户认证服务
@@ -11,7 +11,7 @@ export class AuthService
     /**
      * API 基础路径
      */
-    private static readonly API_BASE = '/api/auth'
+    private static readonly API_BASE = '/users'
 
     /**
      * 登录函数
@@ -26,11 +26,17 @@ export class AuthService
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(values)
+                body: JSON.stringify
+                (
+                    {
+                        username: values.username,
+                        password: values.password,
+                    }
+                )
             }
         )
 
-        if (!response.ok) 
+        if (response.status != 200) 
         {
             const error = await response.json() as ApiError
             throw new Error(error.message)
@@ -51,7 +57,14 @@ export class AuthService
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(values),
+                body: JSON.stringify
+                (
+                    {
+                        id: 0,
+                        username: values.username,
+                        password: values.password,
+                    }
+                )
             }
         )
 
@@ -67,7 +80,6 @@ export class AuthService
      */
     static async logout(): Promise<void> 
     {
-        localStorage.removeItem('auth-token')
         localStorage.removeItem('user-info')
     }
 }

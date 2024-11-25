@@ -14,7 +14,6 @@ export class TaskService
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ operation: 'CREATE', task } as TaskOperation),
-        mode: 'no-cors'
       }
     )
 
@@ -32,7 +31,6 @@ export class TaskService
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ operation: 'READ', userId } as TaskOperation),
-        mode: 'no-cors'
       }
     )
 
@@ -50,7 +48,6 @@ export class TaskService
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ operation: 'UPDATE', task } as TaskOperation),
-        mode: 'no-cors'
       }
     )
 
@@ -68,7 +65,6 @@ export class TaskService
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ operation: 'DELETE', taskId } as TaskOperation),
-        mode: 'no-cors'
       }
     )
 

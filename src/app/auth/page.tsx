@@ -3,8 +3,7 @@
 
 import { useState } from 'react'
 import { redirect, useRouter } from 'next/navigation'
-import 
-{
+import {
   Paper,
   TextInput,
   PasswordInput,
@@ -24,125 +23,100 @@ import { LoginFormValues, RegisterFormValues, ApiError } from '@/app/types/auth'
 import { AuthService } from '@/app/service/auth'
 import { isAuthenticated, storeUserInfo } from '@/app/utils/auth'
 
-export default function AuthPage() 
-{
-  if (isAuthenticated()) redirect('/dashboard')
+export default function AuthPage() {
+  // 检查用户是否已认证，如果是，则重定向到仪表板
+  if (isAuthenticated()) {
+    redirect('/dashboard')
+  }
+
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState<string | null>('login')
 
-  const loginForm = useForm<LoginFormValues>
-  (
-    {
-      initialValues: 
-      {
-        username: '',
-        password: ''
-      },
-      validate: 
-      {
-        username: (value) => (value.length < 2 ? '用户名至少需要2个字符' : null),
-        password: (value) => (value.length < 6 ? '密码至少需要6个字符' : null),
-      }
+  const loginForm = useForm<LoginFormValues>({
+    initialValues: {
+      username: '',
+      password: ''
+    },
+    validate: {
+      username: (value) => (value.length < 2 ? '用户名至少需要2个字符' : null),
+      password: (value) => (value.length < 6 ? '密码至少需要6个字符' : null),
     }
-  )
+  })
 
-  const registerForm = useForm<RegisterFormValues>
-  (
-    {
-      initialValues: 
-      {
-        username: '',
-        password: '',
-        password_confirm: '',
-      },
-      validate: 
-      {
-        username: (value) => (value.length < 2 ? '用户名至少需要2个字符' : null),
-        password: (value) => (value.length < 6 ? '密码至少需要6个字符' : null),
-        password_confirm: (value, values) => value !== values.password ? '两次输入的密码不匹配' : null
-      }
+  const registerForm = useForm<RegisterFormValues>({
+    initialValues: {
+      username: '',
+      password: '',
+      password_confirm: '',
+    },
+    validate: {
+      username: (value) => (value.length < 2 ? '用户名至少需要2个字符' : null),
+      password: (value) => (value.length < 6 ? '密码至少需要6个字符' : null),
+      password_confirm: (value, values) => value !== values.password ? '两次输入的密码不匹配' : null,
     }
-  )
+  })
 
-  const handleLogin = async (values: LoginFormValues) => 
-  {
+  const handleLogin = async (values: LoginFormValues) => {
     setLoading(true)
 
-    try 
-    {
+    try {
       const data = await AuthService.login(values)
 
-      storeUserInfo
-      (
-        {
-          id: data.id,
-          username: data.username,
-          password: data.password
-        }
-      )
+      storeUserInfo({
+        id: data.id,
+        username: data.username,
+        password: data.password
+      })
 
-      notifications.show
-      (
-        {
-          title: '登录成功',
-          message: `欢迎回来，${data.username}！`,
-          color: 'green'
-        }
-      )
+      notifications.show({
+        title: '登录成功',
+        message: `欢迎回来，${data.username}！`,
+        color: 'green'
+      })
 
-      router.push('/dashboard')
-    } 
-    catch (error) 
-    {
-      notifications.show
-      (
-        {
-          title: '登录失败',
-          message: error instanceof Error ? error.message : '请检查您的用户名和密码',
-          color: 'red',
-        }
-      )
-    } 
-    finally { setLoading(false) }
+      redirect('/dashboard')
+    } catch (error) {
+      notifications.show({
+        title: '登录失败',
+        message: error instanceof Error ? error.message : '请检查您的用户名和密码',
+        color: 'red',
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleRegister = async (values: RegisterFormValues) => 
-  {
+  const handleRegister = async (values: RegisterFormValues) => {
     setLoading(true)
 
-    try 
-    {
+    try {
       await AuthService.register(values)
 
-      notifications.show
-      (
-        {
-          title: '注册成功',
-          message: '请查看您的邮箱进行验证',
-          color: 'green',
-        }
-      )
+      notifications.show({
+        title: '注册成功',
+        message: '请查看您的邮箱进行验证',
+        color: 'green',
+      })
 
       setActiveTab('login')
-    } 
-    catch (error) 
-    {
-      notifications.show
-      (
-        {
-          title: '注册失败',
-          message: error instanceof Error ? error.message : '请稍后重试',
-          color: 'red',
-        }
-      )
-    } 
-    finally { setLoading(false) }
+    } catch (error) {
+      notifications.show({
+        title: '注册失败',
+        message: error instanceof Error ? error.message : '请稍后重试',
+        color: 'red',
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <Container size={420} my={40}>
       <Title ta="center" fw={600}>欢迎使用MyMemo备忘录</Title>
+      <Text c="dimmed" size="md" ta="center" mt={5}>
+        开发者： 陈金海 和 王鑫
+      </Text>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         {activeTab === 'login' ? '还没有账号？' : '已有账号？'}{' '}
         <Anchor
@@ -162,7 +136,7 @@ export default function AuthPage()
           </Tabs.List>
 
           <Tabs.Panel value="login">
-            <form onSubmit={loginForm.onSubmit(handleLogin)}>
+            <form onSubmit={loginForm.onSubmit((values) => handleLogin(values))}>
               <Stack>
                 <TextInput
                   required
@@ -184,7 +158,7 @@ export default function AuthPage()
           </Tabs.Panel>
 
           <Tabs.Panel value="register">
-            <form onSubmit={registerForm.onSubmit(handleRegister)}>
+            <form onSubmit={registerForm.onSubmit((values) => handleRegister(values))}>
               <Stack>
                 <TextInput
                   required

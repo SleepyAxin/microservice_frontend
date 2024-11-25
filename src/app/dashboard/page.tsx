@@ -17,6 +17,7 @@ import {
   Checkbox,
   ActionIcon,
   Grid,
+  Box,
 } from '@mantine/core'
 import { DateInput } from '@mantine/dates'
 import { useForm } from '@mantine/form'
@@ -27,7 +28,7 @@ import { TaskService } from '@/app/service/task'
 import { isAuthenticated } from '../utils/auth'
 
 export default function DashboardPage() {
-  // if (!isAuthenticated()) redirect('/auth')
+  if (!isAuthenticated()) redirect('/auth')
   const [tasks, setTasks] = useState<Task[]>([])
   const [modalOpened, setModalOpened] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -154,6 +155,10 @@ export default function DashboardPage() {
           新建任务
         </Button>
       </Group>
+
+      <Text c="dimmed" size="md" ta="left" mt={10} mb={10}>
+        开发者： 陈金海 和 王鑫
+      </Text>
 
       <Grid>
         {tasks.map((task) => (

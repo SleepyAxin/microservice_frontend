@@ -33,7 +33,6 @@ export class AuthService
             password: values.password,
           }
         ),
-        mode: 'no-cors'
       }
     )
 
@@ -66,7 +65,6 @@ export class AuthService
             password: values.password,
           }
         ),
-        mode: 'no-cors'
       }
     )
 

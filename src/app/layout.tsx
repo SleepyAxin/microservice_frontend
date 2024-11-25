@@ -5,11 +5,8 @@ import { Notifications } from '@mantine/notifications'
 import '@mantine/core/styles.css'
 import '@mantine/notifications/styles.css'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) 
+{
   return (
     <html lang="zh">
       <body>

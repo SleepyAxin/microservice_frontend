@@ -1,5 +1,5 @@
 // services/auth.ts
-import { UserInfo, LoginFormValues, RegisterFormValues, AuthResponse, ApiError } from '@/app/types/auth'
+import { LoginFormValues, RegisterFormValues, AuthResponse, ApiError } from '@/app/types/auth'
 
 /**
  * 用户认证服务
@@ -8,78 +8,80 @@ import { UserInfo, LoginFormValues, RegisterFormValues, AuthResponse, ApiError }
  */
 export class AuthService
 {
-    /**
-     * API 基础路径
-     */
-    private static readonly API_BASE = '/users'
+  /**
+   * API 基础路径
+   */
+  private static readonly API_BASE = 'http://localhost:9001/users'
 
-    /**
-     * 登录函数
-     * @param values 登录表单的值
-     * @returns 登录成功后的用户信息
-     */
-    static async login(values: LoginFormValues): Promise<AuthResponse> 
-    {
-        const response = await fetch
+  /**
+   * 登录函数
+   * @param values 登录表单的值
+   * @returns 登录成功后的用户信息
+   */
+  static async login(values: LoginFormValues): Promise<AuthResponse> 
+  {
+    const response = await fetch
+    (
+      `${this.API_BASE}/login`, 
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify
         (
-            `${this.API_BASE}/login`, 
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify
-                (
-                    {
-                        username: values.username,
-                        password: values.password,
-                    }
-                )
-            }
-        )
+          {
+            username: values.username,
+            password: values.password,
+          }
+        ),
+        mode: 'no-cors'
+      }
+    )
 
-        if (response.status != 200) 
-        {
-            const error = await response.json() as ApiError
-            throw new Error(error.message)
-        }
-
-        return response.json()
+    if (response.status != 200) 
+    {
+      const error = await response.json() as ApiError
+      throw new Error(error.message)
     }
 
-    /**
-     * 注册函数
-     * @param values 注册表单的值
-     */
-    static async register(values: RegisterFormValues): Promise<void> 
-    {
-        const response = await fetch
+    return response.json()
+  }
+
+  /**
+   * 注册函数
+   * @param values 注册表单的值
+   */
+  static async register(values: RegisterFormValues): Promise<void> 
+  {
+    const response = await fetch
+    (
+      `${this.API_BASE}/register`, 
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify
         (
-            `${this.API_BASE}/register`, 
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify
-                (
-                    {
-                        id: 0,
-                        username: values.username,
-                        password: values.password,
-                    }
-                )
-            }
-        )
+          {
+            id: 0,
+            username: values.username,
+            password: values.password,
+          }
+        ),
+        mode: 'no-cors'
+      }
+    )
 
-        if (!response.ok) 
-        {
-            const error = await response.json() as ApiError
-            throw new Error(error.message)
-        }
-    }
-
-    /**
-     * 登出函数
-     */
-    static async logout(): Promise<void> 
+    if (!response.ok) 
     {
-        localStorage.removeItem('user-info')
+      const error = await response.json() as ApiError
+      throw new Error(error.message)
     }
+  }
+
+  /**
+   * 登出函数
+   */
+  static async logout(): Promise<void> 
+  {
+    localStorage.removeItem('user-info')
+  }
 }

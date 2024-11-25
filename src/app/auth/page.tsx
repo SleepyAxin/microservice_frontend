@@ -2,7 +2,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import 
 {
   Paper,
@@ -14,7 +14,6 @@ import
   Text,
   Anchor,
   Container,
-  Group,
   Stack,
   Tabs,
 } from '@mantine/core'
@@ -23,10 +22,11 @@ import { notifications } from '@mantine/notifications'
 
 import { LoginFormValues, RegisterFormValues, ApiError } from '@/app/types/auth'
 import { AuthService } from '@/app/service/auth'
-import { storeUserInfo } from '@/app/utils/auth'
+import { isAuthenticated, storeUserInfo } from '@/app/utils/auth'
 
 export default function AuthPage() 
 {
+  if (isAuthenticated()) redirect('/dashboard')
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [activeTab, setActiveTab] = useState<string | null>('login')
@@ -37,8 +37,7 @@ export default function AuthPage()
       initialValues: 
       {
         username: '',
-        password: '',
-        remember_me: false,
+        password: ''
       },
       validate: 
       {
@@ -56,14 +55,12 @@ export default function AuthPage()
         username: '',
         password: '',
         password_confirm: '',
-        terms: false,
       },
       validate: 
       {
         username: (value) => (value.length < 2 ? '用户名至少需要2个字符' : null),
         password: (value) => (value.length < 6 ? '密码至少需要6个字符' : null),
-        password_confirm: (value, values) => value !== values.password ? '两次输入的密码不匹配' : null,
-        terms: (value) => (value ? null : '您必须同意服务条款'),
+        password_confirm: (value, values) => value !== values.password ? '两次输入的密码不匹配' : null
       }
     }
   )
@@ -95,7 +92,6 @@ export default function AuthPage()
       )
 
       router.push('/dashboard')
-
     } 
     catch (error) 
     {
@@ -181,14 +177,6 @@ export default function AuthPage()
                   placeholder="您的密码"
                   {...loginForm.getInputProps('password')}
                 />
-
-                <Group justify="space-between">
-                  <Checkbox
-                    label="记住我"
-                    {...loginForm.getInputProps('remember_me', { type: 'checkbox' })}
-                  />
-                  <Anchor component="button" size="sm">忘记密码？</Anchor>
-                </Group>
 
                 <Button fullWidth loading={loading} type="submit">登录</Button>
               </Stack>

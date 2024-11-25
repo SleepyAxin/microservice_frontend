@@ -1,15 +1,15 @@
+// types/auth.ts
+
 /**
  * 登录表单值接口
  * @interface LoginFormValues
  * @property { string } username - 用户名
  * @property { string } password - 密码
- * @property { boolean } remember_me - 是否记住登录状态
  */
 export interface LoginFormValues 
 {
-    username: string
-    password: string
-    remember_me: boolean
+  username: string
+  password: string
 }
 
 /**
@@ -18,14 +18,12 @@ export interface LoginFormValues
  * @property { string } username - 用户名
  * @property { string } password - 密码
  * @property { string } password_confirm - 确认密码
- * @property { boolean } terms - 是否同意条款
  */
 export interface RegisterFormValues 
 {
-    username: string
-    password: string
-    password_confirm: string
-    terms: boolean
+  username: string
+  password: string
+  password_confirm: string
 }
 
 /**
@@ -37,9 +35,9 @@ export interface RegisterFormValues
  */
 export interface UserInfo 
 {
-    id: number
-    username: string
-    password: string
+  id: number
+  username: string
+  password: string
 }
 
 /**
@@ -49,9 +47,9 @@ export interface UserInfo
  */
 export interface AuthResponse 
 {
-    id: number
-    username: string
-    password: string
+  id: number
+  username: string
+  password: string
 }
 
 /**
@@ -62,6 +60,6 @@ export interface AuthResponse
  */
 export interface ApiError 
 {
-    code: string
-    message: string
+  code: string
+  message: string
 }

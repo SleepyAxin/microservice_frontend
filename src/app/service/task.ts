@@ -3,7 +3,8 @@ import { Task, TaskOperation } from '@/app/types/task'
 
 export class TaskService 
 {
-  private static readonly API_BASE = 'http://localhost:9002/tasks'
+  // private static readonly API_BASE = 'http://localhost:9002/tasks'
+  private static readonly API_BASE = 'http://localhost:8222/mymemo-task/tasks'
 
   static async createTask(task: Task): Promise<Task> 
   {

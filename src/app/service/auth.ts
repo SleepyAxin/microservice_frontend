@@ -11,7 +11,8 @@ export class AuthService
   /**
    * API 基础路径
    */
-  private static readonly API_BASE = 'http://localhost:9001/users'
+  // private static readonly API_BASE = 'http://localhost:9001/users'
+  private static readonly API_BASE = 'http://localhost:8222/mymemo-user/users'
 
   /**
    * 登录函数

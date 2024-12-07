@@ -95,7 +95,7 @@ export default function AuthPage() {
 
       notifications.show({
         title: '注册成功',
-        message: '请查看您的邮箱进行验证',
+        message: '',
         color: 'green',
       })
 
